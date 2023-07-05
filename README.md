@@ -6,6 +6,7 @@
 <div align="center">
   <br>
   Status do projeto: Em andamento 🚧 <br>
+</div>
 
 ---
 ## Índice
