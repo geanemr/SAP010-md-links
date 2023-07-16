@@ -8,5 +8,27 @@
     "createdAt": "2023-06-19T12:25:44.680Z",
     "version": "6.3.0",
     "commit": "c17498042fc79734cec390e6314cbe810e95bf4c"
-  }
+  },
+  "description": "<div align=\"center\">",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geanemr/SAP010-md-links.git"
+  },
+  "keywords": [
+    "\"node\"",
+    "\"markdown\""
+  ],
+  "author": "Geane Moraes Ramos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geanemr/SAP010-md-links/issues"
+  },
+  "homepage": "https://github.com/geanemr/SAP010-md-links#readme"
 }
