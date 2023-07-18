@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 // const chalk = require('chalk');
@@ -27,7 +27,7 @@ function validateMdLinks(urls) {
 }
 
 function readFileContent(filePath) {
-  return fs
+  return fs.promises
     .readFile(filePath, 'utf-8')
     .catch((error) => {
       throw new Error(/*chalk.yellow*/('Nenhum arquivo md encontrado'));
