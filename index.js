@@ -4,7 +4,7 @@ const axios = require('axios');
 // const chalk = require('chalk');
 
 function findMdFileURLs(fileContent) {
-  const urlRegex = /\[([^\]]+)\]\s*\(([^)]+)\)/g;
+  const urlRegex = /\[([^[\]]*)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
   const matches = [...fileContent.matchAll(urlRegex)];
   return matches.map((match) => match[2]);
 }
