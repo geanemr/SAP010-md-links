@@ -1,29 +1,47 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const { error } = require('console');
 // const chalk = require('chalk');
 
 function findMdFileURLs(fileContent) {
   const urlRegex = /\[([^[\]]*)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
   const matches = [...fileContent.matchAll(urlRegex)];
-  return matches.map((match) => match[2]);
+  return matches.map((match) => ({
+    text: match[1],
+    url: match[2],
+    file: filePath,
+  }));
 }
 
 function validateMdLink(url) {
-  return axios
-    .get(url)
-    .then((response) => response.status === 200)
-    .catch(() => false);
+  // console.log(url)
+  // return axios
+    return fetch(url.url) 
+    .then((response) => {console.log(response); return response;})
+    .catch((error) => error);
 }
 
-function validateMdLinks(urls) {
+function checkMdLinks(urls, validate) {
+  if (validate === true){
   return Promise.all(urls.map(validateMdLink)).then((results) => {
+    // console.log(results)
     const validatedLinks = [];
     for (let i = 0; i < urls.length; i++) {
-      validatedLinks.push({ url: urls[i], isValid: results[i] });
+      validatedLinks.push({ url: urls[i], isValid: validate});
     }
     return validatedLinks;
   });
+} else {
+  return Promise.all(urls).then((results) => {
+    console.log(results)
+    const validatedLinks = [];
+    for (let i = 0; i < urls.length; i++) {
+      validatedLinks.push({ url: urls[i], isValid: validate});
+    }
+    return validatedLinks;
+  });
+}
 }
 
 function readFileContent(filePath) {
@@ -35,16 +53,14 @@ function readFileContent(filePath) {
 }
 
 function mdLinks(filePath, options = { validate: false }) {
+  // console.log(options);
   const absolutePath = path.resolve(filePath);
   return readFileContent(absolutePath)
     .then((fileContent) => {
       const urls = findMdFileURLs(fileContent);
-
-      if (options.validate) {
-        return validateMdLinks(urls);
-      }
-
-      return urls.map((url) => ({ url }));
+      return checkMdLinks(urls, options.validate).then((url) => url).catch((error)=> {
+        throw new Error(`Error processing URL: ${error.message}`);
+      });
     })
     .catch((error) => {
       throw new Error(`Error processing file: ${error.message}`);
@@ -52,10 +68,12 @@ function mdLinks(filePath, options = { validate: false }) {
 }
 
 // let filePath = process.argv[2]; usar na CLI
-let filePath = './test.md';
+const filePath = './test.md';
 
-mdLinks(filePath, { validate: true })
-  .then((links) => {
+const validate = process.argv[2];
+
+mdLinks(filePath, { validate: validate })
+  .then((links) => { /*console.log(validate)*/
     console.log(links);
   })
   .catch((error) => {
