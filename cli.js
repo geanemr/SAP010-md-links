@@ -1,20 +1,26 @@
-const { mdlinks } = require('./md-links.js');
-const path = process.argv[2];
-const options = {
-  validate: process.argv.includes('--validate'),
-  stats: process.argv.includes('--stats'),
-  validateAndStats: process.argv.includes('--validate') && process.argv.includes('--stats'),
-};
-mdlinks(path, options)
-.then((results) => {
-if (options.validate) {
-    results.forEach((link) => {
-        console.log(chalk.yellow('File:' + link.file));
-        console.log(chalk.magenta('Text:' + link.text));
-        console.log(chalk.cyan('Link:' + link.links));
-        console.log(chalk.green('Status HTTP:' + link.status))
-        console.log(chalk.green('OK:' + link.ok))
-        console.log('¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨')
-})
-}
-});
+// const mdLinks = require('./md-links');
+
+// const [, , filePath, command] = process.argv;
+
+// if (!filePath) {
+//   console.error('Por favor, forneça o caminho para o arquivo ou diretório.');
+//   process.exit(1);
+// }
+
+// if (command === 'validate') {
+//   mdLinks(filePath, { validate: true })
+//     .then((links) => {
+//       console.table(links);
+//     })
+//     .catch((error) => {
+//       console.error(error.message);
+//     });
+// } else {
+//   mdLinks(filePath)
+//     .then((links) => {
+//       console.table(links);
+//     })
+//     .catch((error) => {
+//       console.error(error.message);
+//     });
+// }

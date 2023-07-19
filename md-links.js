@@ -1,87 +1,103 @@
 const fs = require("fs");
 const path = require("path");
-const { error } = require("console");
-// const chalk = require('chalk');
+const { green, yellow, magenta, red, cyan } = require('colorette');
 
-function findMdFileURLs(fileContent) {
-  const urlRegex = /\[([^[\]]*)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
-  const matches = [...fileContent.matchAll(urlRegex)];
-  const results =  matches.map((match) => ({
-    text: match[1],
-    url: match[2],
-    file: filePath,
-  }));
-  // console.table(results);
-  return results;
-}
+function findMdFileURLs(filePath, callback) {
+  fs.readFile(filePath, "utf-8", (error, fileContent) => {
+    if (error) {
+      callback(new Error(red("Nenhum arquivo md encontrado")));
+      return;
+    }
 
-function validateMdLink(url) {
-  // console.log(url)
-  return fetch(url.url)
-    .then((response) => {
-      console.log(response); /*esse console esta mostrando todos os objetos */
-      return response;
-    })
-    .catch((error) => error);
-}
-
-function checkMdLinks(urls, validate) {
-  if (validate) {
-    return Promise.all(urls.map(validateMdLink)).then((results) => {
-      // console.log(results)
-      const validatedLinks = [];
-      for (let i = 0; i < urls.length; i++) {
-        validatedLinks.push({ url: urls[i], isValid: validate });
-      }
-      return validatedLinks;
-    });
-  } else {
-    return Promise.all(urls).then((results) => {
-      // console.log(results);
-      const validatedLinks = [];
-      for (let i = 0; i < urls.length; i++) {
-        validatedLinks.push({ url: urls[i], isValid: validate });
-      }
-      return validatedLinks;
-    });
-  }
-}
-
-function readFileContent(filePath) {
-  return fs.promises.readFile(filePath, "utf-8").catch((error) => {
-    throw new Error(/*chalk.yellow*/ "Nenhum arquivo md encontrado");
+    const urlRegex = /\[([^[\]]*)]\((https?:\/\/[^\s?#.]+[^\s]*)\)/gm;
+    const matches = [...fileContent.matchAll(urlRegex)];
+    const results = matches.map((match) => ({
+      href: match[2],
+      text: match[1],
+      file: filePath,
+    }));
+    callback(null, results);
   });
 }
 
-function mdLinks(filePath, options = { validate: false }) {
-  // console.log(options);
-  const absolutePath = path.resolve(filePath);
-  return readFileContent(absolutePath)
-    .then((fileContent) => {
-      const urls = findMdFileURLs(fileContent);
-      return checkMdLinks(urls, options.validate)
-        .then((url) => url)
-        .catch((error) => {
-          throw new Error(`Error processing URL: ${error.message}`);
-        });
+function validateMdLink(url, text, file, callback) {
+  if (!url) {
+    callback(null, {
+      href: url,
+      text: text,
+      file: file,
+      status: "Error",
+      ok: "fail",
+    });
+    return;
+  }
+
+  fetch(url)
+    .then((response) => {
+      callback(null, {
+        href: url,
+        text: text,
+        file: file,
+        status: response.status,
+        ok: response.ok ? "ok" : "fail",
+      });
     })
     .catch((error) => {
-      throw new Error(`Error processing file: ${error.message}`);
+      callback(null, {
+        href: url,
+        text: text,
+        file: file,
+        status: "Error",
+        ok: "fail",
+      });
     });
 }
 
-// let filePath = process.argv[2]; usar na CLI
-const filePath = "./test.md";
+function mdLinks(filePath, options = { validate: false }, callback) {
+  const absolutePath = path.resolve(filePath);
+  findMdFileURLs(absolutePath, (error, urls) => {
+    if (error) {
+      callback(error);
+      return;
+    }
 
-const validate = process.argv[2];
+    if (options.validate) {
+      let processedCount = 0;
+      const linkInfos = [];
 
-mdLinks(filePath, { validate: validate })
-  .then((links) => {
-    /*console.log(validate)*/
-    console.log(links);
-  })
-  .catch((error) => {
-    console.error(error);
+      urls.forEach((url) => {
+        validateMdLink(url.href, url.text, url.file, (error, linkInfo) => {
+          linkInfos.push(linkInfo);
+          processedCount++;
+
+          if (processedCount === urls.length) {
+            callback(null, linkInfos);
+          }
+        });
+      });
+    } else {
+      callback(null, urls);
+    }
   });
+}
 
-module.exports = mdLinks;
+const filePath = "./test.md";
+const validate = process.argv[2] === "--validate";
+
+mdLinks(filePath, { validate: validate }, (error, links) => {
+  if (error) {
+    console.error(error);
+  } else {
+    links.forEach((link) => {
+      console.log(cyan("href:" + link.href));
+      console.log(magenta("text:" + link.text));
+      console.log(yellow("file:" + link.file));
+      if (validate) {
+        console.log(green("status:" + link.status));
+        console.log(green("ok:" + link.ok));
+      }
+      console.log("------------------------");
+    });
+  }
+});
+
