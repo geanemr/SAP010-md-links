@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { green, yellow, magenta, red, cyan } = require('colorette');
+const { green, yellow, magenta, red, cyan, white, } = require('colorette');
 
 function findMdFileURLs(filePath, callback) {
   fs.readFile(filePath, "utf-8", (error, fileContent) => {
@@ -38,8 +38,8 @@ function validateMdLink(url, text, file, callback) {
         href: url,
         text: text,
         file: file,
-        status: response.status,
-        ok: response.ok ? "ok" : "fail",
+        status: green(response.status),
+        ok: response.ok ? green("ok") : "fail",
       });
     })
     .catch((error) => {
@@ -47,8 +47,8 @@ function validateMdLink(url, text, file, callback) {
         href: url,
         text: text,
         file: file,
-        status: "Error",
-        ok: "fail",
+        status: red("Error"),
+        ok: red("Fail"),
       });
     });
 }
@@ -93,8 +93,8 @@ mdLinks(filePath, { validate: validate }, (error, links) => {
       console.log(magenta("text:" + link.text));
       console.log(yellow("file:" + link.file));
       if (validate) {
-        console.log(green("status:" + link.status));
-        console.log(green("ok:" + link.ok));
+        console.log(white("status:" + link.status));
+        console.log(white("ok:" + link.ok));
       }
       console.log("------------------------");
     });
