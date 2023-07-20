@@ -47,29 +47,44 @@ function validateMdLink(url, text, file, callback) {
         href: url,
         text: text,
         file: file,
-        status: red("Error"),
-        ok: red("Fail"),
+        status: red("error"),
+        ok: red("fail"),
       });
     });
 }
-function showConsole (options, links) {
-  // criar novo if, se ambos forem usados juntos
-  if (!options.stats){
-    links.forEach((link) => {
-      console.log(cyan("href:" + link.href));
-      console.log(magenta("text:" + link.text));
-      console.log(yellow("file:" + link.file));
-      if (options.validate === true) {
-        console.log(white("status:" + link.status));
-        console.log(white("ok:" + link.ok));
-      }
-    console.log("------------------------");
-    });
-  }
-  if (options.stats) {
-    console.log("sou o stats")
- } 
+
+function statsLinksMdLinks(links){
+  const linksSize = links.length;
+  const uniqueLinks = new Set(links.map((link) => link.href)).size;
+  const brokenLinks = links.filter((link) => link.ok === "fail").length;
+  return {
+    total: linksSize,
+    unique: uniqueLinks,
+    broken: brokenLinks,
+  };
 }
+
+function showConsole(options, links) {
+  if (!options.stats) {
+    links.forEach((link) => {
+      console.log(cyan("href: " + link.href));
+      console.log(magenta("text: " + link.text));
+      console.log(yellow("file: " + link.file));
+      if (options.validate === true) {
+        console.log(white("status: " + link.status));
+        console.log(white("ok: " + link.ok));
+      }
+      console.log("------------------------");
+    });
+  } else if (options.stats) {
+    const { total, unique, broken } = statsLinksMdLinks(links);
+    console.log(green("Total links: " + total));
+    console.log(yellow("Unique links: " + unique));
+    console.log(red("Broken links: " + broken));
+  }
+}
+
+
 function mdLinks(filePath, options = { validate: false }) {
   const absolutePath = path.resolve(filePath);
   findMdFileURLs(absolutePath, (error, urls) => {
@@ -98,9 +113,10 @@ function mdLinks(filePath, options = { validate: false }) {
   });
 }
 
-
 module.exports = {
   findMdFileURLs,
   validateMdLink,
   mdLinks,
+  showConsole,
+  statsLinksMdLinks,
 }
