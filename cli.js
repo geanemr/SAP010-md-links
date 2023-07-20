@@ -1,26 +1,24 @@
-// const mdLinks = require('./md-links');
+const { mdLinks } = require("./md-links");
 
-// const [, , filePath, command] = process.argv;
+const filePath = "./test.md";
+const validate = process.argv[2] === "--validate";
+const { yellow, magenta, cyan, white, } = require('colorette');
 
-// if (!filePath) {
-//   console.error('Por favor, forneça o caminho para o arquivo ou diretório.');
-//   process.exit(1);
-// }
+mdLinks(filePath, { validate: validate }, (error, links) => {
+  if (error) {
+    console.error(error);
+  } else {
+    links.forEach((link) => {
+      console.log(cyan("href:" + link.href));
+      console.log(magenta("text:" + link.text));
+      console.log(yellow("file:" + link.file));
+      if (validate) {
+        console.log(white("status:" + link.status));
+        console.log(white("ok:" + link.ok));
+      }
+      console.log("------------------------");
+    });
+  }
+});
 
-// if (command === 'validate') {
-//   mdLinks(filePath, { validate: true })
-//     .then((links) => {
-//       console.table(links);
-//     })
-//     .catch((error) => {
-//       console.error(error.message);
-//     });
-// } else {
-//   mdLinks(filePath)
-//     .then((links) => {
-//       console.table(links);
-//     })
-//     .catch((error) => {
-//       console.error(error.message);
-//     });
-// }
+
