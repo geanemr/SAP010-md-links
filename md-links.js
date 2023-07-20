@@ -52,12 +52,29 @@ function validateMdLink(url, text, file, callback) {
       });
     });
 }
-
-function mdLinks(filePath, options = { validate: false }, callback) {
+function showConsole (options, links) {
+  // criar novo if, se ambos forem usados juntos
+  if (!options.stats){
+    links.forEach((link) => {
+      console.log(cyan("href:" + link.href));
+      console.log(magenta("text:" + link.text));
+      console.log(yellow("file:" + link.file));
+      if (options.validate === true) {
+        console.log(white("status:" + link.status));
+        console.log(white("ok:" + link.ok));
+      }
+    console.log("------------------------");
+    });
+  }
+  if (options.stats) {
+    console.log("sou o stats")
+ } 
+}
+function mdLinks(filePath, options = { validate: false }) {
   const absolutePath = path.resolve(filePath);
   findMdFileURLs(absolutePath, (error, urls) => {
     if (error) {
-      callback(error);
+      console.error(error);
       return;
     }
 
@@ -71,12 +88,12 @@ function mdLinks(filePath, options = { validate: false }, callback) {
           processedCount++;
 
           if (processedCount === urls.length) {
-            callback(null, linkInfos);
+            showConsole(options, linkInfos);
           }
         });
       });
     } else {
-      callback(null, urls);
+      showConsole(options, urls);
     }
   });
 }
