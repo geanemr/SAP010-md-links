@@ -38,8 +38,8 @@ function validateMdLink(url, text, file, callback) {
         href: url,
         text: text,
         file: file,
-        status: green(response.status),
-        ok: response.ok ? green("ok") : "fail",
+        status: response.status ? "ok" : "error",
+        ok: response.ok ? "ok" : "fail",
       });
     })
     .catch((error) => {
@@ -47,8 +47,8 @@ function validateMdLink(url, text, file, callback) {
         href: url,
         text: text,
         file: file,
-        status: red("error"),
-        ok: red("fail"),
+        status: "error",
+        ok: "fail",
       });
     });
 }
@@ -56,11 +56,17 @@ function validateMdLink(url, text, file, callback) {
 function statsLinksMdLinks(links){
   const linksSize = links.length;
   const uniqueLinks = new Set(links.map((link) => link.href)).size;
-  const brokenLinks = links.filter((link) => link.ok === "fail").length;
+  let brokenLinks = []
+  for(let i=0; i<links.length; i++){
+     if (!brokenLinks.includes(links[i]) && links[i].ok !== "ok") {
+     brokenLinks.push(links[i])
+    }
+  };
+  const uniqueBrokenLinks = new Set(brokenLinks.map((link) => link.href)).size;
   return {
     total: linksSize,
     unique: uniqueLinks,
-    broken: brokenLinks,
+    broken: uniqueBrokenLinks,
   };
 }
 
