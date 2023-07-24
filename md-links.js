@@ -71,24 +71,33 @@ function statsLinksMdLinks(links){
 }
 
 function showConsole(options, links) {
-  if (!options.stats) {
+  if (!options.stats && !options.validate) {
     links.forEach((link) => {
       console.log(cyan("href: " + link.href));
       console.log(magenta("text: " + link.text));
       console.log(yellow("file: " + link.file));
-      if (options.validate === true) {
-        console.log(white("status: " + link.status));
-        console.log(white("ok: " + link.ok));
-      }
-      console.log("------------------------");
     });
-  } else if (options.stats) {
-    const { total, unique, broken } = statsLinksMdLinks(links);
-    console.log(green("Total links: " + total));
-    console.log(yellow("Unique links: " + unique));
-    console.log(red("Broken links: " + broken));
+    } else if (!options.stats && options.validate) {
+      links.forEach((link) => {
+      console.log(cyan("href: " + link.href));
+      console.log(magenta("text: " + link.text));
+      console.log(yellow("file: " + link.file));
+      console.log(white("status: " + link.status));
+      console.log(white("ok: " + link.ok))
+    })
+    } else if (options.stats && !options.validate) {
+      const { total, unique } = statsLinksMdLinks(links);
+      console.log(green("Total links: " + total));
+      console.log(yellow("Unique links: " + unique));
+    } else if(options.stats && options.validate) {
+      const { total, unique, broken } = statsLinksMdLinks(links);
+      console.log(green("Total links: " + total));
+      console.log(yellow("Unique links: " + unique));
+      console.log(red("Broken links: " + broken));
+    }
+
   }
-}
+
 
 
 function mdLinks(filePath, options = { validate: false }) {
