@@ -2,55 +2,47 @@ const fs = require("fs");
 const path = require("path");
 const { green, yellow, magenta, red, cyan, white, } = require('colorette');
 
-function findMdFileURLs(filePath, callback) {
-  fs.readFile(filePath, "utf-8", (error, fileContent) => {
-    if (error) {
-      callback(new Error(red("Nenhum arquivo md encontrado")));
-      return;
-    }
+function findMdFileURLs(filePath) {
+  const absolutePath = path.resolve(filePath);
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf-8", (error, fileContent) => {
+      if (error) {
+        if (!filePath.endsWith(".md")) {
+          reject(new Error(red("Nenhum arquivo md encontrado")));
+        } else if (fileContent.length === 0) {
+          reject(new Error(red("O arquivo está vazio")));
+        }
+        return;
+      }
 
-    const urlRegex = /\[([^[\]]*)]\((https?:\/\/[^\s?#.]+[^\s]*)\)/gm;
-    const matches = [...fileContent.matchAll(urlRegex)];
-    const results = matches.map((match) => ({
-      href: match[2],
-      text: match[1],
-      file: filePath,
-    }));
-    callback(null, results);
+      const urlRegex = /\[([^[\]]*)]\((https?:\/\/[^\s?#.]+[^\s]*)\)/gm;
+      const matches = [...fileContent.matchAll(urlRegex)];
+      const results = matches.map((match) => ({
+        href: match[2],
+        text: match[1],
+        file: absolutePath,
+      }));
+      resolve(results);
+    });
   });
 }
 
-function validateMdLink(url, text, file, callback) {
-  if (!url) {
-    callback(null, {
+function validateMdLink(url, text, file) {
+  return fetch(url)
+    .then((response) => ({
       href: url,
       text: text,
       file: file,
-      status: "Error",
+      status: response.status ? "ok" : "error",
+      ok: response.ok ? "ok" : "fail",
+    }))
+    .catch((error) => ({
+      href: url,
+      text: text,
+      file: file,
+      status: "error",
       ok: "fail",
-    });
-    return;
-  }
-
-  fetch(url)
-    .then((response) => {
-      callback(null, {
-        href: url,
-        text: text,
-        file: file,
-        status: response.status ? "ok" : "error",
-        ok: response.ok ? "ok" : "fail",
-      });
-    })
-    .catch((error) => {
-      callback(null, {
-        href: url,
-        text: text,
-        file: file,
-        status: "error",
-        ok: "fail",
-      });
-    });
+    }));
 }
 
 function statsLinksMdLinks(links){
@@ -95,38 +87,26 @@ function showConsole(options, links) {
       console.log(yellow("Unique links: " + unique));
       console.log(red("Broken links: " + broken));
     }
-
   }
 
-
-
-function mdLinks(filePath, options = { validate: false }) {
-  const absolutePath = path.resolve(filePath);
-  findMdFileURLs(absolutePath, (error, urls) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    if (options.validate) {
-      let processedCount = 0;
-      const linkInfos = [];
-
-      urls.forEach((url) => {
-        validateMdLink(url.href, url.text, url.file, (error, linkInfo) => {
-          linkInfos.push(linkInfo);
-          processedCount++;
-
-          if (processedCount === urls.length) {
-            showConsole(options, linkInfos);
-          }
-        });
+  function mdLinks(filePath, options = { validate: false }) {
+    const absolutePath = path.resolve(filePath);
+    return findMdFileURLs(absolutePath)
+      .then((urls) => {
+        if (options.validate) {
+          let promises = urls.map(url => validateMdLink(url.href, url.text, url.file));
+          return Promise.all(promises);
+        } else {
+          return urls;
+        }
+      })
+      .then((results) => {
+        showConsole(options, results);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
       });
-    } else {
-      showConsole(options, urls);
-    }
-  });
-}
+  }
 
 module.exports = {
   findMdFileURLs,
