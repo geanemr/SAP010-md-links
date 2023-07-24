@@ -73,6 +73,7 @@ function showConsole(options, links) {
       console.log(cyan("href: " + link.href));
       console.log(magenta("text: " + link.text));
       console.log(yellow("file: " + link.file));
+      console.log("------------------------------")
     });
     } else if (!options.stats && options.validate) {
       links.forEach((link) => {
@@ -81,6 +82,7 @@ function showConsole(options, links) {
       console.log(yellow("file: " + link.file));
       console.log(white("status: " + link.status));
       console.log(white("ok: " + link.ok))
+      console.log("------------------------------")
     })
     } else if (options.stats && !options.validate) {
       const { total, unique } = statsLinksMdLinks(links);
