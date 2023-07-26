@@ -7,15 +7,15 @@ function findMdFileURLs(filePath) {
     fs.readFile(filePath, "utf-8", (error, fileContent) => {
       if (error) {
         if (!filePath.endsWith(".md")) {
-          reject(new Error(red("Nenhum arquivo md encontrado")));
+          reject(new Error("Nenhum arquivo md encontrado"));
         } else {
-          reject(new Error(red("Erro ao ler o arquivo: " + error.message)));
+          reject(new Error("Erro ao ler o arquivo: " + error.message));
         }
         return;
       }
 
       if (fileContent.trim().length === 0) {
-        reject(new Error(red("O arquivo está vazio")));
+        reject(new Error("O arquivo está vazio"));
         return;
       }
 
