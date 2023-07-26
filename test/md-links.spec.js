@@ -1,5 +1,6 @@
 const {findMdFileURLs, validateMdLink, mdLinks} = require('../src/md-links');
-const fs = require('fs')
+const fs = require('fs');
+const { it } = require('node:test');
 const path = require('path');
 
 jest.mock('fs', () => ({
@@ -22,13 +23,13 @@ jest.mock('fs', () => ({
     };
   
     // Test case 1: Test when the file is empty
-    test('should reject with an error when the file is empty', async () => {
+    it('should reject with an error when the file is empty', async () => {
       mockReadFileResolve('');
       await expect(findMdFileURLs('test.md')).rejects.toThrowError('O arquivo está vazio');
     });
   
     // Test case 2: Test when the file contains no URLs
-    test('should resolve with an empty array when the file contains no URLs', async () => {
+    it('should resolve with an empty array when the file contains no URLs', async () => {
       const content = `
         This is some text without any URLs.
         It should not match the URL regex.
@@ -39,7 +40,7 @@ jest.mock('fs', () => ({
     });
   
     // Test case 3: Test when the file contains URLs
-    test('should resolve with an array of URLs when the file contains URLs', async () => {
+    it('should resolve with an array of URLs when the file contains URLs', async () => {
       const content = `
         This is some text with a [URL 1](https://example.com) and [URL 2](https://test.com).
       `;
@@ -60,27 +61,27 @@ jest.mock('fs', () => ({
     });
   
     // Test case 4: Test when the file path is invalid (should reject with an error)
-    test('should reject with an error when the file path is invalid', async () => {
+    it('should reject with an error when the file path is invalid', async () => {
       mockReadFileReject(new Error('File not found'));
       await expect(findMdFileURLs('invalid-file.md')).rejects.toThrowError('Erro ao ler o arquivo: File not found');
     });
   
     // Test case 5: Test when the file is not an MD file (should reject with an error)
-    test('should reject with an error when the file is not an MD file', async () => {
+    it('should reject with an error when the file is not an MD file', async () => {
       mockReadFileReject(new Error('File not found'));
       await expect(findMdFileURLs('invalid-file.txt')).rejects.toThrowError('Nenhum arquivo md encontrado');
     });
   });
 
   describe('validateMdLink', () => {
-    test('should return an object with status: "ok" and ok: "ok" for a valid link', async () => {
+    it('should return an object with status: "ok" and ok: "ok" for a valid link', async () => {
       const url = 'https://example.com';
       const text = 'Example Link';
       const file = '/path/to/file.md';
   
       const result = await validateMdLink(url, text, file);
   
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         href: url,
         text: text,
         file: file,
@@ -89,14 +90,14 @@ jest.mock('fs', () => ({
       });
     });
   
-    test('should return an object with status: "error" and ok: "fail" for an invalid link', async () => {
+    it('should return an object with status: "error" and ok: "fail" for an invalid link', async () => {
       const url = 'https://invalid-url';
       const text = 'Invalid Link';
       const file = '/path/to/file.md';
+
   
       const result = await validateMdLink(url, text, file);
-  
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         href: url,
         text: text,
         file: file,
@@ -105,7 +106,7 @@ jest.mock('fs', () => ({
       });
     });
   
-    test('should return an object with status: "error" and ok: "fail" if fetch throws an error', async () => {
+    it('should return an object with status: "error" and ok: "fail" if fetch throws an error', async () => {
       const url = 'failfail';
       const text = 'Example Link';
       const file = '/path/to/failfail';
