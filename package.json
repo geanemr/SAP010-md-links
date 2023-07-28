@@ -32,12 +32,10 @@
   },
   "homepage": "https://github.com/geanemr/SAP010-md-links#readme",
   "dependencies": {
-    "chalk": "^5.3.0",
     "colorette": "^2.0.20"
   },
   "devDependencies": {
     "eslint": "^8.45.0",
-    "jest": "^29.6.1"
+    "jest": "^28.1.3"
   }
-  
 }
