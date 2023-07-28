@@ -128,12 +128,9 @@ describe("validateMdLink", () => {
 });
 
 describe("mdLinks' function tests", () => {
-  // jest.setTimeout(7000);
-  it("should return the list of links on filePath when validate is true and stats is false", async () => {
+  it("should return the list of links on filePath when both validate and stats are false", async () => {
     filePath = "./test.md";
-    options = { validate: true, stats:false };
-
-    // const result = await mdLinks(filePath, options);
+    options = { validate:false, stats:false };
     const expected = [
       {
         href: "https://nodejs.org/",
@@ -151,32 +148,7 @@ describe("mdLinks' function tests", () => {
         file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
       },
       {
-        href: "https://ahsauhsahsiahsiash",
-        text: "Arranjos",
-        file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
-      },
-      {
-        href: "https://ahsauhsahsiahsiash",
-        text: "Arranjos",
-        file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
-      },
-      {
-        href: "https://ahsauhsahsiahsiash",
-        text: "Arranjos",
-        file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
-      },
-      {
-        href: "https://ahsauhsahsiahsiash",
-        text: "Arranjos",
-        file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
-      },
-      {
-        href: "https://ahsauhsahsiahsiash",
-        text: "Arranjos",
-        file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
-      },
-      {
-        href: "https://ahsauhsahsiahsiash",
+        href: "https://brokenbrokenbroken",
         text: "Arranjos",
         file: "C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md",
       },
@@ -186,7 +158,113 @@ describe("mdLinks' function tests", () => {
       expect(result).toEqual(expected);
       }
     )
-    
   });
-  // proximo teste aqui
+//   it("should return the list of links on filePath when validate is true and stats is false", async () => {
+//     filePath = "./test.md";
+//     options = { validate:true, stats:false };
+//     const expected = [
+//       {
+//         href: 'https://nodejs.org/',
+//         text: 'Node.js',
+//         file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//         status: 'ok',
+//       },
+//       {
+//         href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+//         text: 'md-links',
+//         file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//         status: 'ok',
+//         ok: 'ok'
+//       },
+//       {
+//         href: 'https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays',
+//         text: 'Arranjos',
+//         file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//         status: 'ok',
+//         ok: 'ok'
+//       },
+//       {
+//         href: 'https://brokenbrokenbroken',
+//         text: 'Arranjos',
+//         file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//         status: 'error',
+//         ok: 'fail'
+//       }
+//     ]
+//     mdLinks(filePath, options).then(
+//       result => {
+//       expect(result).toEqual(expected);
+//       }
+//     )
+// });
+// it("should return the list of links on filePath when validate is false and stats is true", async () => {
+//   filePath = "./test.md";
+//   options = { validate:false, stats:true };
+//   const expected = [
+//     {
+//       href: 'https://nodejs.org/',
+//       text: 'Node.js',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md'
+//     },
+//     {
+//       href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+//       text: 'md-links',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md'
+//     },
+//     {
+//       href: 'https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays',
+//       text: 'Arranjos',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md'
+//     },
+//     {
+//       href: 'https://brokenbrokenbroken',
+//       text: 'Arranjos',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md'
+//     }
+//   ]
+//   mdLinks(filePath, options).then(
+//     result => {
+//     expect(result).toEqual(expected);
+//     }
+//   )
+// });
+// it("should return the list of links on filePath when both validate and stats are true", async () => {
+//   filePath = "./test.md";
+//   options = { validate:true, stats:true };
+//   const expected = [
+//     {
+//       href: 'https://nodejs.org/',
+//       text: 'Node.js',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//       status: 'ok',
+//       ok: 'ok'
+//     },
+//     {
+//       href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+//       text: 'md-links',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//       status: 'ok',
+//       ok: 'ok'
+//     },
+//     {
+//       href: 'https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays',
+//       text: 'Arranjos',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//       status: 'ok',
+//       ok: 'ok'
+//     },
+//     {
+//       href: 'https://brokenbrokenbroken',
+//       text: 'Arranjos',
+//       file: 'C:\\Users\\Matheus\\desktop\\geane\\projetos\\sap010-md-links\\test.md',
+//       status: 'error',
+//       ok: 'fail'
+//     }
+//   ]
+//   mdLinks(filePath, options).then(
+//     result => {
+//     expect(result).toEqual(expected);
+//     }
+//   )
+// });
 });
