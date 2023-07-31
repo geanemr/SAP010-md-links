@@ -14,10 +14,10 @@ function findMdFileURLs(filePath) {
         return;
       }
 
-      if (fileContent.trim().length === 0) {
-        reject(new Error("O arquivo está vazio"));
-        return;
-      }
+      // if (fileContent.trim().length === 0) {
+      //   reject(new Error("O arquivo está vazio"));
+      //   return;
+      // }
 
       const urlRegex = /\[([^[\]]*)]\((https?:\/\/[^\s?#.]+[^\s]*)\)/gm;
       const matches = [...fileContent.matchAll(urlRegex)];
@@ -26,6 +26,7 @@ function findMdFileURLs(filePath) {
         text: match[1],
         file: absolutePath,
       }));
+      console.log("teste 1")
       resolve(results);
     });
   });
@@ -50,9 +51,10 @@ function validateMdLink(url, text, file) {
 }
 
   function mdLinks(filePath, options = { validate: false }) {
+    console.log(options.validate)
     const absolutePath = path.resolve(filePath);
     return findMdFileURLs(absolutePath)
-      .then((urls) => {
+      .then((urls) => {       
         if (options.validate) {
           let promises = urls.map(url => validateMdLink(url.href, url.text, url.file));
           return Promise.all(promises);
@@ -61,6 +63,7 @@ function validateMdLink(url, text, file) {
         }
       })
       .catch((error) => {
+        // console.log("catch")
         console.error('Error:', error);
       });
   }

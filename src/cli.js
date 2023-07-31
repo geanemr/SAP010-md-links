@@ -57,6 +57,6 @@ function showConsole(options, links) {
 mdLinks(filePath, options)
 .then((results) => {
     showConsole(options, results);
-    // console.log(results)
+    console.log(results)
   })
 
