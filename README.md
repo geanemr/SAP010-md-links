@@ -28,11 +28,11 @@
 
 * [1. Prefácio](#1-prefácio)
 * [2. Resumo do projeto](#2-resumo-do-projeto)
-* [3. Guia de instalação]()
+* [3. Guia de instalação](#3-guia-de-instalação)
 * [4. Guia de uso]()
 * [5. Fluxograma](#5-fluxograma)
 * [6. Organização do projeto](#6-organização-do-projeto)
-* [7. Testes unitários]()
+* [7. Testes unitários](#7-testes-unitários)
 * [8. Desenvolvedora](#8-desenvolvedora)
 
 ***
@@ -53,6 +53,10 @@ quebrados, ou que já não são válidos, prejudicando muito o valor da informa�
 
 Pensando nisso, foi criado o projeto Md-links, com o objetivo de percorrer estes arquivos markdown, retornando as listas de links, textos e caminhos dos respectivos arquivos, além de informar quantos links de extensão .md esses arquivos possuem, se são únicos e se estão quebrados ou não.
 
+## 3. Guia de instalação
+Para instalar esta biblioteca você deve executar a seguinte linha de comando: <strong>`npm install md-links-geanemr`</strong>. 
+Após a instalação, certifique de ter um arquivo .md com links dentro.
+
 ## 5. Fluxograma
 
 Foi criado o seguinte fluxograma para auxiliar no desenvolvimento do projeto:
@@ -70,7 +74,7 @@ A ferramenta utilizada para organização do projeto foi o Github Projects:
 ## 7. Testes unitários
 Cobertura de testes em jest:
 <div align="center">
-<img src="src/images/cobertura-testes.PNG" width="800em"/>
+<img src="src/images/jest-cobertura.PNG" width="800em"/>
 </div>
 
 ## 8. Desenvolvedora
