@@ -57,14 +57,14 @@ Pensando nisso, foi criado o projeto Md-links, com o objetivo de percorrer estes
 
 Foi criado o seguinte fluxograma para auxiliar no desenvolvimento do projeto:
 <div align="center">
-<img src="src/images/fluxograma.PNG" width="520em"/>
+<img src="src/images/fluxograma.png" width="600em"/>
 </div>
 
 ## 6. Organização do Projeto
 
 A ferramenta utilizada para organização do projeto foi o Github Projects:
 <div align="center">
-<img src="src/images/github-projects.PNG" width="520em"/>
+<img src="src/images/github-projects.PNG" width="600em"/>
 </div>
 
 
