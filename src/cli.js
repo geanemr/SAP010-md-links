@@ -1,5 +1,5 @@
 const { mdLinks } = require("./md-links");
-const { green, yellow, magenta, red, cyan, white, } = require('colorette');
+const { red, cyan, blueBright } = require('colorette');
 
 const filePath = "./test.md";
 const options = {
@@ -11,29 +11,29 @@ const options = {
 function showConsole(options, links) {
     if (!options.stats && !options.validate) {
       links.forEach((link) => {
-        console.log(cyan("href: " + link.href));
-        console.log(magenta("text: " + link.text));
-        console.log(yellow("file: " + link.file));
-        console.log("------------------------------")
+        console.log(blueBright("• href: " + (cyan(link.href))));
+        console.log(blueBright("• text: " + (cyan(link.text))));
+        console.log(blueBright("• file: " + (cyan(link.file))));
+        console.log("-------------------------------------------------------------")
       });
       } else if (!options.stats && options.validate) {
         links.forEach((link) => {
-        console.log(cyan("href: " + link.href));
-        console.log(magenta("text: " + link.text));
-        console.log(yellow("file: " + link.file));
-        console.log(white("status: " + link.status));
-        console.log(white("ok: " + link.ok))
-        console.log("------------------------------")
+        console.log(blueBright("• href: " + (cyan(link.href))));
+        console.log(blueBright("• text: " + (cyan(link.text))));
+        console.log(blueBright("• file: " + (cyan(link.file))));
+        console.log(blueBright("• status: " + (link.status === "error" ? (red(link.status)) : (cyan(link.status)))));
+        console.log(blueBright("• ok: " + (link.ok === "fail" ? (red(link.ok)) : (cyan(link.ok)))));
+        console.log("-------------------------------------------------------------")
       })
       } else if (options.stats && !options.validate) {
         const { total, unique } = statsLinksMdLinks(links);
-        console.log(green("Total links: " + total));
-        console.log(yellow("Unique links: " + unique));
+        console.log(blueBright("• Total links: " + (cyan(total))));
+        console.log(blueBright("• Unique links: " + (cyan(unique))));
       } else if(options.stats && options.validate) {
         const { total, unique, broken } = statsLinksMdLinks(links);
-        console.log(green("Total links: " + total));
-        console.log(yellow("Unique links: " + unique));
-        console.log(red("Broken links: " + broken));
+        console.log(blueBright("• Total links: " + (cyan(total))));
+        console.log(blueBright("• Unique links: " + (cyan(unique))));
+        console.log(blueBright("• Broken links: " + (red(broken))));
       }
     }
 
@@ -57,6 +57,6 @@ function showConsole(options, links) {
 mdLinks(filePath, options)
 .then((results) => {
     showConsole(options, results);
-    console.log(results)
+    // console.log(results)
   })
 
