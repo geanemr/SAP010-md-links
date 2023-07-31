@@ -132,7 +132,6 @@ describe("mdLinks' function tests", () => {
     });
   });
   it("should return the list of links on filePath when validate is true and stats is false", async () => {
-    // filePath = "./test.md";
     options = { validate: true, stats: false };
     const expected = [
       {
@@ -168,7 +167,6 @@ describe("mdLinks' function tests", () => {
     });
   });
   it("should return the list of links on filePath when validate is false and stats is true", async () => {
-    // filePath = "./test.md";
     options = { validate: false, stats: true };
     const expected = [
       {
@@ -197,7 +195,6 @@ describe("mdLinks' function tests", () => {
     });
   });
   it("should return the list of links on filePath when both validate and stats are true", async () => {
-    // filePath = "./test.md";
     options = { validate: true, stats: true };
     const expected = [
       {

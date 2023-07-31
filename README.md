@@ -60,13 +60,18 @@ Foi criado o seguinte fluxograma para auxiliar no desenvolvimento do projeto:
 <img src="src/images/fluxograma.png" width="800em"/>
 </div>
 
-## 6. Organização do Projeto
+## 6. Organização do projeto
 
 A ferramenta utilizada para organização do projeto foi o Github Projects:
 <div align="center">
 <img src="src/images/github-projects.PNG" width="1000em"/>
 </div>
 
+## 7. Testes unitários
+Cobertura de testes em jest:
+<div align="center">
+<img src="src/images/cobertura-testes.PNG" width="800em"/>
+</div>
 
 ## 8. Desenvolvedora
 Geane Ramos 
