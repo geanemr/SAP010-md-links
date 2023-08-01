@@ -13,7 +13,7 @@
     "commit": "c17498042fc79734cec390e6314cbe810e95bf4c"
   },
   "description": "<div align=\"center\">",
-  "main": "cli.js",
+  "main": "./src/cli.js",
   "directories": {
     "test": "test"
   },
