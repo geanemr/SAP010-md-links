@@ -1,8 +1,11 @@
 {
   "name": "md-links-geanemr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "node": ">=16.x"
+  },
+  "bin": {
+    "md-links": "./src/cli.js"
   },
   "bootcamp": {
     "createdAt": "2023-06-19T12:25:44.680Z",
@@ -10,7 +13,7 @@
     "commit": "c17498042fc79734cec390e6314cbe810e95bf4c"
   },
   "description": "<div align=\"center\">",
-  "main": "index.js",
+  "main": "cli.js",
   "directories": {
     "test": "test"
   },
