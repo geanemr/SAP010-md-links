@@ -1,4 +1,6 @@
-const { mdLinks } = require("./md-links");
+#!/usr/bin/env node
+
+const { mdLinks } = require('./md-links.js');
 const { red, cyan, blueBright } = require('colorette');
 
 const filePath = process.argv[2];
@@ -57,6 +59,6 @@ function showConsole(options, links) {
 mdLinks(filePath, options)
 .then((results) => {
     showConsole(options, results);
-    // console.log(results)
+    
   })
 
