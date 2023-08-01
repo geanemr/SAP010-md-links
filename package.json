@@ -1,6 +1,6 @@
 {
   "name": "md-links-geanemr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "node": ">=16.x"
   },
@@ -13,7 +13,7 @@
     "commit": "c17498042fc79734cec390e6314cbe810e95bf4c"
   },
   "description": "<div align=\"center\">",
-  "main": "cli.js",
+  "main": "./src/cli.js",
   "directories": {
     "test": "test"
   },

@@ -54,8 +54,38 @@ quebrados, ou que já não são válidos, prejudicando muito o valor da informa�
 Pensando nisso, foi criado o projeto Md-links, com o objetivo de percorrer estes arquivos markdown, retornando as listas de links, textos e caminhos dos respectivos arquivos, além de informar quantos links de extensão .md esses arquivos possuem, se são únicos e se estão quebrados ou não.
 
 ## 3. Guia de instalação
-Para instalar esta biblioteca você deve executar a seguinte linha de comando: <strong>`npm install md-links-geanemr`</strong>. 
+Para instalar esta biblioteca você deve executar a seguinte linha de comando: `npm install md-links-geanemr`. 
 Após a instalação, certifique de ter um arquivo .md com links dentro.
+
+## 4. Guia de uso
+a) Rode o comando mdlinks + o caminho relativo do seu arquivo , para obter os links dos arquivos (href), os textos (text) e os caminhos (file) dos mesmos:
+ 
+ `md-links <caminho-do-arquivo>`
+<div align="center">
+<img src="src/images/comando 1.PNG" width="800em"/>
+</div>
+
+b) Rode o comando abaixo para, além das informações acima, fazer uma requisição HTTP e receber o status e ok dos seus links:
+
+`md-links <caminho-do-arquivo> --validate`
+<div align="center">
+<img src="src/images/comando-validate.PNG" width="800em"/>
+</div>
+
+c) Você também pode receber informações estatísticas sobre os links. Rode o comando abaixo para saber qual o total de links do arquivo e quantos deles são únicos:
+
+`md-links <caminho-do-arquivo> --stats`
+<div align="center">
+<img src="src/images/comando-stats.PNG" width="800em"/>
+</div
+
+d) E, para saber quantos destes arquivos únicos estão quebrados, rode o comando abaixo:
+
+`md-links <caminho-do-arquivo> --validate --stats`
+<div align="center">
+<img src="src/images/comando-validate-stats.PNG" width="800em"/>
+</div
+
 
 ## 5. Fluxograma
 
