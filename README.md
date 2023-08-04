@@ -104,7 +104,7 @@ A ferramenta utilizada para organização do projeto foi o Github Projects:
 ## 7. Testes unitários
 Cobertura de testes em jest:
 <div align="center">
-<img src="src/images/jest-cobertura.PNG" width="800em"/>
+<img src="src/images/cobertura-testes-jest.PNG" width="800em"/>
 </div>
 
 ## 8. Desenvolvedora

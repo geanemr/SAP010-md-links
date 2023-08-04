@@ -60,7 +60,7 @@ describe("validateMdLink", () => {
 
     const result = await validateMdLink(url, text, file);
 
-    expect(result).toStrictEqual({
+    expect(result).toEqual({
       href: url,
       text: text,
       file: file,
@@ -75,7 +75,7 @@ describe("validateMdLink", () => {
     const file = "/path/to/file.md";
 
     const result = await validateMdLink(url, text, file);
-    expect(result).toStrictEqual({
+    expect(result).toEqual({
       href: url,
       text: text,
       file: file,
@@ -127,44 +127,43 @@ describe("mdLinks' function tests", () => {
         file: absolutePath,
       },
     ];
-    mdLinks(absolutePath, options).then((result) => {
-      expect(result).toEqual(expected);
-    });
+    const result = await mdLinks(absolutePath, options)
+    expect(result).toEqual(expected);
   });
   it("should return the list of links on filePath when validate is true and stats is false", async () => {
     options = { validate: true, stats: false };
     const expected = [
       {
-        href: "https://nodejs.org/",
-        text: "Node.js",
+        href: 'https://nodejs.org/',
+        text: 'Node.js',
         file: absolutePath,
-        status: "ok",
+        status: 'ok',
+        ok: 'ok'
       },
       {
-        href: "https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg",
-        text: "md-links",
+        href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+        text: 'md-links',
         file: absolutePath,
-        status: "ok",
-        ok: "ok",
+        status: 'ok',
+        ok: 'ok'
       },
       {
-        href: "https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays",
-        text: "Arranjos",
+        href: 'https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays',
+        text: 'Arranjos',
         file: absolutePath,
-        status: "ok",
-        ok: "ok",
+        status: 'ok',
+        ok: 'ok'
       },
       {
-        href: "https://brokenbrokenbroken",
-        text: "Arranjos",
+        href: 'https://brokenbrokenbroken',
+        text: 'Arranjos',
         file: absolutePath,
-        status: "error",
-        ok: "fail",
-      },
+        status: 'error',
+        ok: 'fail'
+      }
     ];
-    mdLinks(absolutePath, options).then((result) => {
-      expect(result).toEqual(expected);
-    });
+    const result = await mdLinks(absolutePath, options)
+    expect(result).toEqual(expected);
   });
   it("should return the list of links on filePath when validate is false and stats is true", async () => {
     options = { validate: false, stats: true };
@@ -190,44 +189,48 @@ describe("mdLinks' function tests", () => {
         file: absolutePath,
       },
     ];
-    mdLinks(absolutePath, options).then((result) => {
-      expect(result).toEqual(expected);
-    });
+    const result = await mdLinks(absolutePath, options)
+    expect(result).toEqual(expected);
   });
   it("should return the list of links on filePath when both validate and stats are true", async () => {
     options = { validate: true, stats: true };
     const expected = [
       {
-        href: "https://nodejs.org/",
-        text: "Node.js",
+        href: 'https://nodejs.org/',
+        text: 'Node.js',
         file: absolutePath,
-        status: "ok",
-        ok: "ok",
+        status: 'ok',
+        ok: 'ok'
       },
       {
-        href: "https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg",
-        text: "md-links",
+        href: 'https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg',
+        text: 'md-links',
         file: absolutePath,
-        status: "ok",
-        ok: "ok",
+        status: 'ok',
+        ok: 'ok'
       },
       {
-        href: "https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays",
-        text: "Arranjos",
+        href: 'https://curriculum.laboratoria.la/pt/topics/javascript/04-arrays',
+        text: 'Arranjos',
         file: absolutePath,
-        status: "ok",
-        ok: "ok",
+        status: 'ok',
+        ok: 'ok'
       },
       {
-        href: "https://brokenbrokenbroken",
-        text: "Arranjos",
+        href: 'https://brokenbrokenbroken',
+        text: 'Arranjos',
         file: absolutePath,
-        status: "error",
-        ok: "fail",
-      },
+        status: 'error',
+        ok: 'fail'
+      }
     ];
-     const result = await mdLinks(absolutePath, options)
+      const result = await mdLinks(absolutePath, options)
       expect(result).toEqual(expected);
-      
   });
+  it("should return an error when file does not exist", async () => {
+    options = { validate: true, stats: true };
+    const errorPath = path.resolve('./test/testing.md')
+    const result = await mdLinks(errorPath, options)
+    expect(result).toBeUndefined();
+  })
 });

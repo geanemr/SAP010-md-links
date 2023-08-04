@@ -47,7 +47,7 @@ function validateMdLink(url, text, file) {
   function mdLinks(filePath, options = { validate: false }) {
     const absolutePath = path.resolve(filePath);
     return findMdFileURLs(absolutePath)
-      .then((urls) => {       
+      .then((urls) => {      
         if (options.validate) {
           let promises = urls.map(url => validateMdLink(url.href, url.text, url.file));
           return Promise.all(promises);
